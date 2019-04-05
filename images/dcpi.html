@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+ <script src="jquery.jslatex.js"></script> 
+ <script>  
+$(function () {
+$(".latex").latex();
+});
+ </script>  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Cátia Vaz</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+  <div id="header">
+    <div id="nav"><a href="index.html">Home</a> &nbsp;|&nbsp;  <a href="research.html">Research</a> &nbsp;|&nbsp;  <a href="teaching.html">Teaching</a> </div>
+    <div id="bg"></div>
+  </div>
+  <div id="main-content">
+    <div id="left-column">
+    <h1><code>dc&pi++</code> : a dynamic compensation calculus</h1>
+     <ul>
+     <li>
+        <code>dc&pi++</code> is a calculus for modeling long running transactions within the framework
+		of &pi - calculus, with support for compensation as a recovery mechanism.</li>
+
+     </ul>
+	    <br/>
+<h2>Syntax</h2>
+<table cellspacing="0" cellpadding="5" border="1"  BORDERCOLOR="#f0e9eb"  
+ summary="This table gives some statistics about fruit
+                   flies: average height and weight, and percentage
+                   with red eyes (for both males and females)."
+  >  <!--#a43b55-->
+
+
+<tbody>
+<tr>
+<th> operators </th>
+<th>dc&pi syntax</th>
+<th>ASCII syntax</th>
+</tr>
+<tr>
+<td>Inaction</td>
+<td> <div class="latex"> {\bf 0}<div></td>
+<td><code>inaction</code></td>
+</tr>
+<tr>
+<td>Output</td>
+<td><div class="latex">  \overline{a}\langle v_1,...v_n\rangle </div>  </td>
+<td><code>a<font>&lt</font>v1,...,vn&gt</code></td>
+</tr>
+<tr>
+<td>Failure</td>
+<td><div class="latex">  \overline{t} </div>  </td>
+<td><code>t< ></code></td>
+</tr>
+<tr>
+<td>Variable</td>
+<td><div class="latex">X<div></td>
+<td><code>hole</code></td>
+</tr>
+<tr>
+<td>Input guarded choice</td>
+<td><div class="latex">  a_1(x_1,...,x_n_1)\left\lfloor\lambda  X . Q_1 \right\rfloor . P_1 + </div>
+     <div class="latex"> a_2(y_1,...,y_n_2)\left\lfloor\lambda  X . Q_2 \right\rfloor . P_2 </div>  </td>
+<td><code>(a1(x1,...,xn1)<font>&#37</font>Q1).P1 + <br/>
+          (a2(y1,...,yn2)<font>&#37</font>Q2).P2   </code> (*)</td>
+</tr>
+<tr>
+<td>Parallel composition (**)</td>
+<td> <div class="latex"> P \, | \, Q <div></td>
+<td><code>P | Q</code></td>
+</tr>
+<tr>
+<td>Restriction</td>
+<td> <div class="latex">( \sigma x) P <div></td>
+<td><code>(x)(P)</code></td>
+</tr>
+<tr>
+<td>Transaction scope</td>
+<td><div class="latex"> t[P,Q]_{r}  </div></td>
+<td><code>t[P,Q]r</code></td>
+</tr>
+<tr>
+<td>Protected block</td>
+<td><div class="latex"> \langle P \rangle_{r}  </div></td>
+<td><code> <font>&lt</font>P&gt r</code></td>
+</tr>
+</tbody>
+</table> 
+(*) The parentheses can be ommited if the process Q1 is simple, such as inaction, output, failure, <br/>hole or input without prefixing.<br/>
+(**) The operator | has more precedence than the prefix operator. For the contrary we use parentheses,<BR/> i.e., 
+<code>a(x).P | Q</code> &ne <code>a(x).( P | Q )</code>. 
+ </div>
+     </div>
+<h2>How to use <code>dc&pi++</code> for model checking </h2>	 
+<p>
+The software <a href="icomp.sh">icomp.sh</a> is a Prolog interpreter for dc&pi specifications, 
+which includes a parser and the encoding of the labelled transition system that,
+used toghether with <a href="http://www.stups.uni-duesseldorf.de/ProB/index.php5/Download">ProB</a> model checker, allows to verify the correctness of 
+long running transactions.
+
+<p/>
+<br/>
+<p>
+You should use <a href="http://www.stups.uni-duesseldorf.de/ProB/index.php5/Download">ProB</a> distribution for linux, which includes probcli command.
+</p>
+<br/>
+<p>
+Keep on the same directory icomp and probcli executables.
+</p>
+<br/>
+<p>
+You need to update the variable <code>PROBCMD</code> at the beginning of the script.
+</p>
+<br/>
+<p>
+Usage:  <code>  ./icomp example.pi example.map prop.ltl </code>
+</p>
+<br/>
+<p>
+The file <code>example.pi</code> is a <code>dc&pi++</code> specification written in ASCII.
+The correctness map is described in <code>example.map</code>.
+The file
+prop.ltl specifies the linear temporal logic (LTL) formula that express the correctness property for <code>example.pi</code>.
+The LTL formula is written according to ProB syntax, namelly is written is 
+<a href="http://www.stups.uni-duesseldorf.de/ProB/index.php5/LTL_Model_Checking"> LTLe</a>, an extended version of LTL 
+supported by ProB.
+</p>
+
+<h2> <code>dc&pi++</code> examples </h2>	 
+<ul>
+        <li>
+        Order Transaction 1: 
+	         <a href="./orderTransaction1.pi">  orderTransaction1.pi</a>, 
+			<a href="orderTransaction1.map"> orderTransaction1.map</a> and
+			<a href="examples/orderTransaction1.ltl">orderTransaction1.ltl</a>.
+	    </li>
+        <li>
+        Order Transaction 2:
+            <a href="orderTransaction2.pi">  orderTransaction2.pi</a>, 
+			<a href="examples/orderTransaction2.map"> orderTransaction2.map</a>   and
+			<a href="examples/orderTransaction2.ltl">orderTransaction2.ltl</a>
+		</li>
+		<li>
+        Order Transaction 3:
+            <a href="orderTransaction3.pi">  orderTransaction3.pi</a>, 
+			<a href="orderTransaction3.map"> orderTransaction3.map</a>  and
+			<a href="orderTransaction3.ltl">orderTransaction3.ltl</a>
+	    </li>
+</ul>
+<br/>
+   
+  <div id="footer">Copyright &copy; 2010 Cátia Vaz. All rights reserved.<br />
+    <a href="http://validator.w3.org/check?uri=referer" target="_blank">XHTML</a>  | <a href="http://www.web-designers-directory.org/" target="_blank">WDD</a></div>
+</div>
+
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	var pageTracker = _gat._getTracker("UA-4578342-1");
+	pageTracker._initData();
+	pageTracker._trackPageview();
+</script>
+</body>
+</html>
